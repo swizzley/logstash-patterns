@@ -1,0 +1,23 @@
+JSCAPETIME %{TIMESTAMP_ISO8601}
+JSCRAP_0 (?:- -)
+JSCRAP_1 (?:- - -)
+JSCRAP_2 (?:- - - - - -)
+JSCRAP_3 (?:- - - - - - -) 
+JSCRAP (?:%{JSCRAP_0}|%{JSCRAP_1}|%{JSCRAP_2}|%{JSCRAP_3})
+JSSCP (?:%{QUOTEDSTRING:file} %{INT:bytes_out}|%{QUOTEDSTRING:event})
+
+FTP_USER [a-zA-Z0-9]+
+
+JSCAPELOG_0 %{IP:src_ip} %{INT:src_port} %{IP:dst_ip} %{INT:dst_port} %{FTP_USER:user} %{JSCRAP} %{QUOTEDSTRING:event} %{DATA:file};%{INT:bytes_in} %{INT:bytes_out}
+JSCAPELOG_1 %{IP:src_ip} %{INT:src_port} %{IP:dst_ip} %{INT:dst_port} %{FTP_USER:user} %{JSCRAP} %{QUOTEDSTRING:event} %{JSSCP}
+JSCAPELOG_2 %{IP:src_ip} %{INT:src_port} %{IP:dst_ip} %{INT:dst_port} %{JSCRAP} %{QUOTEDSTRING:event} %{QUOTEDSTRING:info}
+JSCAPELOG_3 %{IP:src_ip} %{INT:src_port} %{IP:dst_ip} %{INT:dst_port} %{FTP_USER:user} %{JSCRAP} %{QUOTEDSTRING:event} 
+JSCAPELOG_4 %{IP:src_ip} %{INT:src_port} %{IP:dst_ip} %{INT:dst_port} %{JSCRAP} %{QUOTEDSTRING:event} 
+JSCAPELOG_5 %{IP:src_ip} %{JSCRAP} %{QUOTEDSTRING:event} %{QUOTEDSTRING:info}
+JSCAPELOG_6 %{JSCRAP} %{QUOTEDSTRING:event} %{QUOTEDSTRING:debug} 
+JSCAPELOG_7 %{IP:src_ip} %{QUOTEDSTRING:event} 
+JSCAPELOG_8 %{QUOTEDSTRING:event} %{WORD:info}
+JSCAPELOG_9 %{IP:src_ip} %{GREEDYDATA:debug} 
+JSCAPELOG_10 %{JSCRAP} %{QUOTEDSTRING:event} 
+
+JSCAPELOGLINE JSCAPE: %{JSCAPETIME} (?:%{JSCAPELOG_0}|%{JSCAPELOG_1}|%{JSCAPELOG_2}|%{JSCAPELOG_3}|%{JSCAPELOG_4}|%{JSCAPELOG_5}|%{JSCAPELOG_6}|%{JSCAPELOG_7}|%{JSCAPELOG_8}|%{JSCAPELOG_9}|%{JSCAPELOG_10})
